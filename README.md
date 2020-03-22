@@ -1,2 +1,2 @@
-# Super_Resolution_Application
- Building an application using a SRCNN to return higher res images
+# Super Resolution Application
+ Building an application using a SRGAN to return higher res images
