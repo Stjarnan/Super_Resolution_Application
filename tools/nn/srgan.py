@@ -83,7 +83,7 @@ class SRGAN:
         config = [
             {'filters':64, 'kernel':3, 'strides':2},
             {'filters':128, 'kernel':3, 'strides':1},
-            {'filters':128, 'kernel':3, 'strides':2}
+            {'filters':128, 'kernel':3, 'strides':2},
             {'filters':256, 'kernel':3, 'strides':1},
             {'filters':256, 'kernel':3, 'strides':2},
             {'filters':512, 'kernel':3, 'strides':1},
