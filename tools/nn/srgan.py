@@ -9,6 +9,7 @@ from keras.layers.core import Reshape
 from keras.layers import UpSampling2D
 from keras.layers import Add
 from keras import Input, Model
+from keras.application import VGG19
 
 # SRGAN
 class SRGAN:
@@ -107,3 +108,31 @@ class SRGAN:
         output = Dense(units=1, activation='sigmoid')(dense1)
 
         model = Model(inputs=[input_layer], outputs=[output], name="discriminator")
+    
+    @staticmethod
+    def build(self, input_shape):
+        # Input shape like: (64, 64, 3)
+
+        # generator
+        generated_img = self.generator(input_shape)
+
+        # extract generator features using VGG
+        vgg = VGG19(include_top=False, weights='imagenet')
+        features = vgg(generated_img)
+
+        # discriminator
+        self.discriminator.trainable = False
+
+        output = self.discriminator(generated_img)
+
+        # create adversial model
+        model = Model(input=[input_shape], outputs=[output, features])
+
+        # print summary of the model
+        for layer in model.layers:
+            print(layer.name, layer.trainable)
+        
+        print(model.summary())
+
+        # return model
+        return model
