@@ -108,25 +108,28 @@ class SRGAN:
         output = Dense(units=1, activation='sigmoid')(dense1)
 
         model = Model(inputs=[input_layer], outputs=[output], name="discriminator")
+
+        return model
     
     @staticmethod
-    def build(self, input_shape):
+    def build(input_shape, generator, discriminator, vgg):
         # Input shape like: (64, 64, 3)
 
+        input_layer = Input(shape=input_shape)
+
         # generator
-        generated_img = self.generator(input_shape)
+        generated_img = generator(input_shape)
 
         # extract generator features using VGG
-        vgg = VGG19(include_top=False, weights='imagenet')
         features = vgg(generated_img)
 
         # discriminator
-        self.discriminator.trainable = False
+        discriminator.trainable = False
 
-        output = self.discriminator(generated_img)
+        output = discriminator(generated_img)
 
         # create adversial model
-        model = Model(input=[input_shape], outputs=[output, features])
+        model = Model(input=[input_layer], outputs=[output, features])
 
         # print summary of the model
         for layer in model.layers:
@@ -136,3 +139,18 @@ class SRGAN:
 
         # return model
         return model
+
+    @staticmethod
+    def vgg(input_shape):
+
+        input_layer = Input(shape=input_shape)
+
+        vgg = VGG19(include_top=False, weights='imagenet')
+
+        features = vgg(input_layer)
+
+        model = Model(inputs=[input_layer], outputs=[features])
+        model.trainable = False
+
+        return model
+
