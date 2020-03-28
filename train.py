@@ -40,6 +40,6 @@ tensorboard.set_model(generator)
 tensorboard.set_model(discriminator)
 
 # Show epoch
-for epoch in range(epochs):
+for epoch in range(EPOCHS):
     print("Epoch:{}".format(epoch))
 
