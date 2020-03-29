@@ -17,7 +17,6 @@ class SRGAN:
     @staticmethod
     def generator(input_shape):
         # Input shape like: (64, 64, 3)
-        momentum = 0.8
         input_layer = Input(shape=input_shape)
 
         # define function to create residual blocks
