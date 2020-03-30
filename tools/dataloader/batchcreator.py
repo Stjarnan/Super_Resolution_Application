@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import random
 
 class BATCH:
 
@@ -7,7 +8,7 @@ class BATCH:
     def get_batch(list_of_images, batch_size, high_resolution_shape, low_resolution_shape):
 
         # Choose a random batch of images
-        images_batch = np.random.choice(list_of_images, size=batch_size)
+        images_batch = random.sample(list_of_images, batch_size)
 
         low_res = []
         high_res = []
@@ -17,7 +18,7 @@ class BATCH:
 
             # Resize the image
             high_res_img = cv2.resize(img, high_resolution_shape)
-            low_res_img = img
+            low_res_img = cv2.resize(img, low_resolution_shape)
 
             high_res.append(high_res_img)
             low_res.append(low_res_img)
