@@ -9,7 +9,7 @@ from keras.layers.core import Reshape
 from keras.layers import UpSampling2D
 from keras.layers import Add
 from keras import Input, Model
-from keras.application import VGG19
+from keras.applications import VGG19
 
 # SRGAN
 class SRGAN:
@@ -25,18 +25,18 @@ class SRGAN:
             # first res block
             res = Conv2D(kernel_size=3, filters=64, strides=1, padding="same")(x)
             res = BatchNormalization(momentum=0.8)(res)
-            res = Activation('prelu')(res)
+            res = PReLU()(res)
             res = Conv2D(kernel_size=3, filters=64, strides=1, padding="same")(res)
             res = BatchNormalization(momentum=0.8)(res)
 
             # elementwise sum
-            res = Add()(res, x)
+            res = Add()([res, x])
 
             return res
 
 		# First piece of the net
-        conv1 = Conv2D(filters=64, kernel_size=9, strides=1, padding="same",
-        activation="prelu")
+        conv1 = Conv2D(filters=64, kernel_size=9, strides=1, padding="same")(input_layer)
+        conv1 = PReLU()(conv1)
 
         # create residual blocks
         blocks = res_block(conv1)
@@ -52,12 +52,12 @@ class SRGAN:
         # third conv block
         conv3 = Conv2D(kernel_size=3, filters=256, strides=1, padding="same")(conv2)
         conv3 = UpSampling2D(size = 2)(conv3)
-        conv3 = Activation('prelu')(conv3)
+        conv3 = PReLU()(conv3)
 
         # fourth block - same as the third one
         conv4 = Conv2D(kernel_size=3, filters=256, strides=1, padding="same")(conv3)
         conv4 = UpSampling2D(size = 2)(conv4)
-        conv4 = Activation('prelu')(conv4)
+        conv4 = PReLU()(conv4)
 
         # output conv
         out = Conv2D(kernel_size=9, filters=3, strides=1, padding="same")(conv4)
@@ -117,7 +117,7 @@ class SRGAN:
         input_layer = Input(shape=input_shape)
 
         # generator
-        generated_img = generator(input_shape)
+        generated_img = generator(input_layer)
 
         # extract generator features using VGG
         features = vgg(generated_img)
