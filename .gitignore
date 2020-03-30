@@ -10,6 +10,9 @@ __pycache__/
 .floyd*
 floyd*
 
+# output folder not needed for git
+output/
+
 
 # Distribution / packaging
 .Python
