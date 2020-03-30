@@ -9,7 +9,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 
 # hyperparameters
-EPOCHS = 500
+EPOCHS = 5000
 BATCH_SIZE = 8
 INPUT_SHAPES = (32, 32, 3)
 OUTPUT_SHAPES = (128, 128, 3)
@@ -61,6 +61,8 @@ model = SRGAN.build(INPUT_SHAPES, generator, discriminator, vgg)
 model.compile(loss=["binary_crossentropy", "mse"],
     loss_weights=[1e-3, 1], optimizer=OPT)
 
+
+# function to save images in a comparative way during training
 def save_images(low_resolution_image, original_image, generated_image, path):
     
     fig = plt.figure()
