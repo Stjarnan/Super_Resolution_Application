@@ -115,6 +115,7 @@ class SRGAN:
         # Input shape like: (64, 64, 3)
 
         input_layer = Input(shape=input_shape)
+        output_shape = Input(shape=(128, 128, 3))
 
         # generator
         generated_img = generator(input_layer)
@@ -123,12 +124,10 @@ class SRGAN:
         features = vgg(generated_img)
 
         # discriminator
-        discriminator.trainable = False
-
         output = discriminator(generated_img)
 
         # create adversial model
-        model = Model(input=[input_layer], outputs=[output, features])
+        model = Model([input_layer, output_shape], [output, features])
 
         # print summary of the model
         for layer in model.layers:
