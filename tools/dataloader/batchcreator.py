@@ -18,7 +18,7 @@ class BATCH:
 
             # Resize the image
             high_res_img = cv2.resize(img, high_resolution_shape)
-            low_res_img = cv2.resize(img, low_resolution_shape)
+            low_res_img = img
 
             high_res.append(high_res_img)
             low_res.append(low_res_img)
