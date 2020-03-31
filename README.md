@@ -1,7 +1,7 @@
 # Super Resolution Application
  Building an application using a SRGAN to return higher res images
 
-## Usage
+## Train
 
 To run the cloud gpu-server:
 ```
@@ -15,7 +15,7 @@ python train.py
 
 ## generate images
 
-To generate a higher res image:
+To generate a higher res image from low res:
 ```
 python generate.py --image "filename"
 ```
